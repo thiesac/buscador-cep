@@ -2,16 +2,15 @@ let listaCep = [];
 
 async function buscarCep() {
     let cep = document.getElementById("cep").value;
-    let resultado = await fetch(
-        "https://viacep.com.br/ws/" + cep + "/json/"
-    );
-    listaCep.push(resultado.json());
+    let resultado = await fetch("https://viacep.com.br/ws/" + cep + "/json/");
+    const info = await resultado.json();
+    listaCep.push(info);
     console.log(listaCep)
     
-    document.getElementById("rua").value = listaCep.logradouro;
-    document.getElementById("bairro").value = listaCep.bairro;
-    document.getElementById("cidade").value = listaCep.localidade;
-    document.getElementById("estado").value = listaCep.uf;
+    document.getElementById("rua").value = info.logradouro;
+    document.getElementById("bairro").value = info.bairro;
+    document.getElementById("cidade").value = info.localidade;
+    document.getElementById("estado").value = info.uf;
 }
 
 function salvar() {    
@@ -26,7 +25,6 @@ function salvar() {
         cidade: document.getElementById("cidade").value,
         estado: document.getElementById("estado").value,
     }
-    listaCep.push(insereCadastro)
     imprimeCadastro()
 }
     
