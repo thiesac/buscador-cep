@@ -15,7 +15,13 @@
         <input type="text" id="nome" placeholder="Digite seu nome" />
         <input type="number" id="idade" placeholder="Digite sua idade" />
         <input type="text" id="genero" placeholder="Identidade de gênero" />
-        <input type="number" id="cep" placeholder="Digite o CEP" />
+        <input
+          type="text"
+          inputmode="numeric"
+          pattern="^(?(^00000(|-0000))|(\d{5}(|-\d{4})))$"
+          id="cep"
+          placeholder="Digite o CEP"
+        />
         <button onclick="buscarCep()">Buscar</button>
         <input type="text" id="rua" placeholder="Digite o logradouro" />
         <input type="text" id="complemento" placeholder="Complemento" />
