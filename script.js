@@ -2,13 +2,17 @@ let listaCep = [];
 
 async function buscarCep() {
     let cep = document.getElementById("cep").value;
-    let resultado = await fetch("https://viacep.com.br/ws/" + cep + "/json/");
-    const info = await resultado.json();
-    //autocompleta os dados com a busca da API
-    document.getElementById("rua").value = info.logradouro;
-    document.getElementById("bairro").value = info.bairro;
-    document.getElementById("cidade").value = info.localidade;
-    document.getElementById("estado").value = info.uf;
+    if (cep.length == 8) {
+        let resultado = await fetch("https://viacep.com.br/ws/" + cep + "/json/");
+        const info = await resultado.json();
+        //autocompleta os dados com a busca da API
+        document.getElementById("rua").value = info.logradouro;
+        document.getElementById("bairro").value = info.bairro;
+        document.getElementById("cidade").value = info.localidade;
+        document.getElementById("estado").value = info.uf;
+    } else {
+        alert("CEP deve conter 8 números")
+    }
 }
 
 function salvar() {  
