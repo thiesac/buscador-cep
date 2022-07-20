@@ -4,8 +4,7 @@ async function buscarCep() {
     let cep = document.getElementById("cep").value;
     let resultado = await fetch("https://viacep.com.br/ws/" + cep + "/json/");
     const info = await resultado.json();
-    listaCep.push(info);
-    
+    //autocompleta os dados com a busca da API
     document.getElementById("rua").value = info.logradouro;
     document.getElementById("bairro").value = info.bairro;
     document.getElementById("cidade").value = info.localidade;
@@ -13,7 +12,7 @@ async function buscarCep() {
 }
 
 function salvar() {  
-    listaCep = {
+    insereCadastro = { //pega os dados do usuário
         nome: document.getElementById("nome").value,
         idade: document.getElementById("idade").value,
         genero: document.getElementById("genero").value,
@@ -24,22 +23,12 @@ function salvar() {
         cidade: document.getElementById("cidade").value,
         estado: document.getElementById("estado").value,
     }
-    document.getElementById("mostra-cadastros").innerHTML = `
-        <div>
-            <p>Nome: ${listaCep.nome}</p>
-            <p>Idade: ${listaCep.idade}</p>
-            <p>Gênero: ${listaCep.genero}</p>
-            <p>CEP: ${listaCep.cep}</p>
-            <p>Rua: ${listaCep.rua}</p>
-            <p>Complemento: ${listaCep.complemento}</p>
-            <p>Bairro: ${listaCep.bairro}</p>
-            <p>Cidade: ${listaCep.cidade}</p>
-            <p>Estado: ${listaCep.estado}</p>
-        </div>`  
+    listaCep.push(insereCadastro)
+    imprimir() 
     esvaziarCampos()
 } 
 
-function esvaziarCampos() {
+function esvaziarCampos() { //limpa os dados que usuário preencheu
     document.getElementById("nome").value = "";
     document.getElementById("idade").value = "";
     document.getElementById("genero").value = "";
@@ -49,4 +38,26 @@ function esvaziarCampos() {
     document.getElementById("bairro").value = "";
     document.getElementById("cidade").value = "";
     document.getElementById("estado").value = "";
+}
+
+function imprimir() {
+    let sectionCadastro = document.getElementById("mostra-cadastros");
+    let cacheSection = "";
+    sectionCadastro.innerHTML = "";
+
+    for (let i = 0; i < listaCep.length; i++) {
+        cacheSection = cacheSection + `
+            <div class="cadastros">
+                <p>Nome: ${(listaCep[i].nome).toUpperCase()}</p>
+                <p>Idade: ${listaCep[i].idade}</p>
+                <p>Gênero: ${listaCep[i].genero.toUpperCase()}</p>
+                <p>CEP: ${listaCep[i].cep}</p>
+                <p>Rua: ${listaCep[i].rua.toUpperCase()}</p>
+                <p>Complemento: ${listaCep[i].complemento.toUpperCase()}</p>
+                <p>Bairro: ${listaCep[i].bairro.toUpperCase()}</p>
+                <p>Cidade: ${listaCep[i].cidade.toUpperCase()}</p>
+                <p>Estado: ${listaCep[i].estado.toUpperCase()}</p>
+            </div>`  
+    }
+    sectionCadastro.innerHTML = cacheSection
 }
