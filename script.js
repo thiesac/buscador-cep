@@ -5,7 +5,6 @@ async function buscarCep() {
     let resultado = await fetch("https://viacep.com.br/ws/" + cep + "/json/");
     const info = await resultado.json();
     listaCep.push(info);
-    console.log(listaCep)
     
     document.getElementById("rua").value = info.logradouro;
     document.getElementById("bairro").value = info.bairro;
@@ -13,8 +12,8 @@ async function buscarCep() {
     document.getElementById("estado").value = info.uf;
 }
 
-function salvar() {    
-    let insereCadastro = {
+function salvar() {  
+    listaCep = {
         nome: document.getElementById("nome").value,
         idade: document.getElementById("idade").value,
         genero: document.getElementById("genero").value,
@@ -25,28 +24,29 @@ function salvar() {
         cidade: document.getElementById("cidade").value,
         estado: document.getElementById("estado").value,
     }
-    imprimeCadastro()
-}
-    
+    document.getElementById("mostra-cadastros").innerHTML = `
+        <div>
+            <p>Nome: ${listaCep.nome}</p>
+            <p>Idade: ${listaCep.idade}</p>
+            <p>Gênero: ${listaCep.genero}</p>
+            <p>CEP: ${listaCep.cep}</p>
+            <p>Rua: ${listaCep.rua}</p>
+            <p>Complemento: ${listaCep.complemento}</p>
+            <p>Bairro: ${listaCep.bairro}</p>
+            <p>Cidade: ${listaCep.cidade}</p>
+            <p>Estado: ${listaCep.estado}</p>
+        </div>`  
+    esvaziarCampos()
+} 
 
-
-function imprimeCadastro() {
-    let sectionCadastro = document.getElementById("mostra-resultados");
-    let cacheSection = "";
-    sectionCadastro.innerHTML = "";
-    for (let i = 0; i < listaCep.length; i++) {
-        cacheSection = cacheSection + `
-            <div class="cadastro">
-                <p>${listaCep[i].nome}</p>
-                <p>${listaCep[i].idade}</p>
-                <p>${listaCep[i].genero}</p>
-                <p>${listaCep[i].cep}</p>
-                <p>${listaCep[i].rua}</p>
-                <p>${listaCep[i].complemento}</p>
-                <p>${listaCep[i].bairro}</p>
-                <p>${listaCep[i].cidade}</p>
-                <p>${listaCep[i].estado}</p>
-            </div>
-        `
-    }
+function esvaziarCampos() {
+    document.getElementById("nome").value = "";
+    document.getElementById("idade").value = "";
+    document.getElementById("genero").value = "";
+    document.getElementById("cep").value = "";
+    document.getElementById("rua").value = "";
+    document.getElementById("complemento").value = "";
+    document.getElementById("bairro").value = "";
+    document.getElementById("cidade").value = "";
+    document.getElementById("estado").value = "";
 }
